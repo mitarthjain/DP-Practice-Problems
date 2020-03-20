@@ -1,0 +1,48 @@
+import java.util.Scanner;
+
+public class Main {
+    static int kadane(int[] v){
+        int n=v.length;
+        int i,j;
+        int ret=0;
+        int me=Integer.MIN_VALUE;
+        int csum=0;
+        for(i=0;i<n;i++){
+            csum+=v[i];
+            if(csum<0)
+                csum=0;
+            ret=Math.max(ret,csum);
+            me=Math.max(me,v[i]);
+        }
+        if(me<0)
+            return me;
+        else
+            return ret;
+    }
+	
+	public static void main(String[] args) {
+		// Write your code here
+        int maxsum=Integer.MIN_VALUE;
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        int m=sc.nextInt();
+        int[][] M=new int[n][m];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                M[i][j]=sc.nextInt();
+            
+            }
+        }
+        for(int l=0;l<m;l++){
+            int[] v=new int[n];
+            for(int r=l;r<m;r++){
+                for(int i=0;i<n;i++){
+                    v[i]+=M[i][r];
+                }
+                maxsum=Math.max(kadane(v),maxsum);
+            }
+        }
+        System.out.println(maxsum);
+	}
+
+}
