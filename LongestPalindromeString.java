@@ -78,4 +78,27 @@ class GFG
 	     }
 	     
 	 }
+}************************
+************************************************
+Given a string S, count and return the number of substrings of S that are palindrome.
+	public class PalindromeSubstrings {
+
+	public static int countPalindromeSubstrings(String s) {
+		// Write your code here
+        int count=0;
+        int n=s.length();
+        for(int i=0;i<2*n-1;++i){
+            int l=i/2;
+            int r=l+i%2;
+            while(l>=0 && r<n && s.charAt(l)==s.charAt(r)){
+                count++;
+                l--;
+                r++;
+            }
+      
+        }
+        return count;
+
+	}
 }
+
