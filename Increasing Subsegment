@@ -1,0 +1,69 @@
+Gary has a sequence A, consisting of n integers.
+We'll call a sequence ai, ai + 1, ..., aj (1 ≤ i ≤ j ≤ n) a subsegment of the sequence a. The value (j - i + 1) denotes the length of the subsegment.
+Your task is to find the longest subsegment of a, such that it is possible to change at most one number (change one number to any integer you want) from the subsegment to make the subsegment strictly increasing. You need to return the length of the maximum subsegment that you can find by changing only one integer in the given sequence.
+Input Format :
+Line 1 : Integer n (1 ≤ n ≤ 10^5)
+Line 2 : n integers a1, a2, ..., an (1 ≤ ai ≤ 10^9)
+Output Format :
+You only need to return the length of the subsegment you find
+**********************************************************************************************************
+public class solution {
+	
+	int[] L;
+	int[] R;
+
+	public int solve(int[] a,int n){
+		
+		int i,len;
+		L = new int[n];
+		R = new int[n];
+
+		len = 1; // minimum length of subsegment is 1
+
+		/*
+			We first calculate li for each 0 <= i < n,
+			satisfying a[i - li + 1] < a[i - li + 2] < ... < a[i], which li is maximal.
+		*/
+
+		for(i = 1, L[0] = 1 ; i < n; i++){
+			
+			if(a[i] > a[i-1])
+				L[i] = L[i-1] + 1;
+			else
+				L[i] = 1;
+		}
+		
+		/*
+	
+			Calculate ri, satisfying ai < a[i + 1] < ... < a[i + ri - 1],
+			which ri is also maximal.
+		
+		*/
+
+		for(i = n-2, R[n-1] = 1; i >= 0; i--){
+			
+			if(a[i] < a[i+1])
+				R[i] = R[i+1] + 1;
+			else
+				R[i] = 1;
+		}
+
+		/*
+			Update the answer i.e. len = max( l[i-1] + 1 + r[i+1], len),
+			when a[i - 1] + 1 < a[i + 1]
+		*/
+
+		for(i = 0; i < n; i++){
+			
+			if( i < n-1)
+				len = Math.max( 1 + R[i+1], len);
+			if(i > 0)
+				len = Math.max( L[i-1] + 1, len);
+			if(i != 0 && i != n-1 && a[i-1] + 1 < a[i+1])
+				len = Math.max( L[i-1] + 1 + R[i+1], len);
+		}
+		
+		return len;
+		
+	}
+}
